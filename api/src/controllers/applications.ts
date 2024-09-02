@@ -1,14 +1,15 @@
 import { Request, Response } from "express";
 import { connection } from "../db"; // Import database connection
 import { ResultSetHeader, RowDataPacket } from "mysql2";
+import { UserRequest } from "../middlewares/authenticateJWT";
 
 // Create a new job application
-const createApplication = async (req: Request, res: Response) => {
+const createApplication = async (req: UserRequest, res: Response) => {
   const { job_title, company_name, application_date, status } = req.body;
 
   try {
     const [{ insertId }] = await connection.query<ResultSetHeader>(
-      "INSERT INTO applications (job_title, company_name, application_date, status) VALUES (?, ?, ?, ?)",
+      "INSERT INTO applications (position, company, date_applied, status) VALUES (?, ?, ?, ?)",
       [job_title, company_name, application_date, status]
     );
     res

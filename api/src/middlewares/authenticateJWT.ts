@@ -29,6 +29,8 @@ type MyToken = {
 
 // Verify JWT token
 const verifyToken = (req: UserRequest, res: Response, next: NextFunction) => {
+  console.log("Cookies", req.cookies);
+
   const { jwt: token } = req.cookies;
 
   if (!token) {

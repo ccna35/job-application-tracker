@@ -16,8 +16,27 @@ export const applicationValidator = (
   });
 
   try {
-    const validatedUser = schema.parse(req.body);
-    req.body = validatedUser;
+    const validatedApplication = schema.parse(req.body);
+    req.body = validatedApplication;
+    next();
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+};
+
+// validate delete application
+export const deleteApplicationValidator = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const schema = z.object({
+    id: z.string().uuid(),
+  });
+
+  try {
+    const validatedApplication = schema.parse(req.params);
+    req.params = validatedApplication;
     next();
   } catch (err) {
     return res.status(400).json(err);
